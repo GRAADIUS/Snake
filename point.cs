@@ -6,19 +6,45 @@ using System.Threading.Tasks;
 
 namespace Snake
 {
-    class point
+    class Point
     {
         public int x; 
         public int y;
         public char sym;
 
-        public point(int _x, int _y, char _sym)
+        public Point(int _x, int _y, char _sym)
         {
             x= _x;
             y= _y;
             sym = _sym;
         }
 
+        public Point(Point p)
+        {
+            x= p.x;
+            y= p.y;
+            sym = p.sym;
+        }
+
+        public void Move(int offset, Direction directon)
+        {
+            if (directon == Direction.RIGHT)
+            {
+                x = x + offset;
+            }
+            else if (directon == Direction.LEFT)
+            {
+                x = x - offset;
+            }
+            if (directon == Direction.UP)
+            {
+                y = y + offset;
+            }
+            else if (directon == Direction.DOWN)
+            {
+                y = y - offset;
+            }
+        }
 
         public void Draw()
         {
@@ -26,5 +52,9 @@ namespace Snake
             Console.Write(sym);
         }
 
+        public override string ToString()
+        {
+            return x + ", " + y + ", " + sym;
+        }
     }
 }

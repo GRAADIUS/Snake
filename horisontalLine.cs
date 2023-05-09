@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Snake
 {
-    class horisontalLine : figure
+    class HorisontalLine : Figure
     {
-        public horisontalLine(int xLeft, int xRight, int y, char sym)
+        public HorisontalLine(int xLeft, int xRight, int y, char sym)
         {
-            pList = new List<point>();
+            pList = new List<Point>();
             for (int x = xLeft; x <= xRight; x++)
             {
-                point p = new point(x, y, sym);
+                Point p = new Point(x, y, sym);
                 pList.Add(p);
             }
         }

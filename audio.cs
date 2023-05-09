@@ -7,7 +7,7 @@ using NAudio.Wave;
 
 namespace Snake
 {
-    public class audio
+    public class Audio
     {
         public async Task tagaplaanis_mangida(string Path)
         {
