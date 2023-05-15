@@ -39,6 +39,7 @@ namespace Snake
             return nextPoint;
         }
 
+
         public void HandleKey(ConsoleKey key)
         {
             if (key == ConsoleKey.LeftArrow)
