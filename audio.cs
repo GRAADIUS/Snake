@@ -10,7 +10,7 @@ using NAudio;
 using NAudio.Wave;
 
 
-namespace Test_Snake
+namespace Snake
 {
     class Music
     {
