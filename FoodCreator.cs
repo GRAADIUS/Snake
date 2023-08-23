@@ -1,37 +1,31 @@
-﻿namespace Snake
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Test_Snake
 {
-    class FoodCreator
+    class FoodFactory
     {
-        int mapWidht;
-        int mapHeight;
-        char sym;
+        int x;
+        int y;
+        char ch;
+        public Point food { get; private set; }
 
         Random random = new Random();
 
-        public FoodCreator(int mapWidht, int mapHeight, char sym)
+        public FoodFactory(int x, int y, char ch)
         {
-            this.mapWidht = mapWidht;
-            this.mapHeight = mapHeight;
-            this.sym = sym;
+            this.x = x;
+            this.y = y;
+            this.ch = ch;
         }
 
-        public Point CreateFood()
+        public void CreateFood()
         {
-            int x = random.Next(2, mapWidht-2);
-            int y = random.Next(2, mapHeight-2);
-            return new Point(x, y, sym);
+            food = (random.Next(2, x - 2), random.Next(2, y - 2), ch);
+            food.Draw();
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

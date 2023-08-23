@@ -3,66 +3,105 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
-namespace Snake
+namespace Test_Snake
 {
-    class Snake : Figure
+    class Snake
     {
-        public Direction direction;
-        public Snake(Point tail, int lenght, Direction _direction)
+        private List<Point> snake;
+        private Direction direction;
+        private int step = 1;
+        private Point tail;
+        private Point head;
+        bool rotate = true;
+        public Snake(int x, int y, int length)
         {
-            direction= _direction;
-            pList = new List<Point>();
-            for (int i = 0; i < lenght; i++)
+            direction = Direction.RIGHT;
+            snake = new List<Point>();
+            for (int i = x - length; i < x; i++)
             {
-                Point p = new Point(tail);
-                p.Move(i, direction);
-                pList.Add(p);
+                Point p = (i, y, '*');
+                snake.Add(p);
+                p.Draw();
             }
         }
-        internal void Move()
+        //Методы движения и поворота в зависимости он направления движения змейки.
+        public Point GetHead() => snake.Last();
+        public void Move()
         {
-            Point tail = pList.First();
-            pList.Remove(tail);
-            Point head = GetNextPoint();
-            pList.Add(head);
-
+            head = GetNextPoint();
+            snake.Add(head);
+            tail = snake.First();
+            snake.Remove(tail);
             tail.Clear();
             head.Draw();
+            rotate = true;
         }
         public Point GetNextPoint()
         {
-            Point head = pList.Last();
-            Point nextPoint = new Point(head);
-            nextPoint.Move(1, direction); 
-            return nextPoint;
-        }
-
-
-        public void HandleKey(ConsoleKey key)
-        {
-            if (key == ConsoleKey.LeftArrow)
-                direction = Direction.LEFT;
-            else if (key == ConsoleKey.RightArrow)
-                direction = Direction.RIGHT;
-            else if (key == ConsoleKey.DownArrow)
-                direction = Direction.DOWN;
-            else if (key == ConsoleKey.UpArrow)
-                direction = Direction.UP;
-        }
-
-        internal bool Eat(Point food)
-        {
-            Point head = GetNextPoint();
-            if (head.IsHit(food))
+            Point p = GetHead();
+            switch (direction)
             {
-                food.sym = head.sym;
-                pList.Add(food);
+                case Direction.LEFT:
+                    p.x -= step;
+                    break;
+                case Direction.RIGHT:
+                    p.x += step;
+                    break;
+                case Direction.UP:
+                    p.y -= step;
+                    break;
+                case Direction.DOWN:
+                    p.y += step;
+                    break;
+            }
+            return p;
+        }
+        public void Rotation(ConsoleKey key)
+        {
+            if (rotate)
+            {
+                switch (direction)
+                {
+                    case Direction.LEFT:
+                    case Direction.RIGHT:
+                        if (key == ConsoleKey.DownArrow)
+                            direction = Direction.DOWN;
+                        else if (key == ConsoleKey.UpArrow)
+                            direction = Direction.UP;
+                        break;
+                    case Direction.UP:
+                    case Direction.DOWN:
+                        if (key == ConsoleKey.LeftArrow)
+                            direction = Direction.LEFT;
+                        else if (key == ConsoleKey.RightArrow)
+                            direction = Direction.RIGHT;
+                        break;
+                }
+                rotate = false;
+            }
+        }
+        public bool IsHit(Point p)
+        {
+            for (int i = snake.Count - 2; i > 0; i--)
+            {
+                if (snake[i] == p)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool Eat(Point p)
+        {
+            head = GetNextPoint();
+            if (head == p)
+            {
+                snake.Add(head);
+                head.Draw();
                 return true;
             }
-            else
-                return false;
+            return false;
         }
-    }
+    }//class Snake
 }

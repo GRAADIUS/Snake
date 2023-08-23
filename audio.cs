@@ -1,45 +1,38 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using NAudio;
 using NAudio.Wave;
 
-namespace Snake
+
+namespace Test_Snake
 {
-    public class Audio
+    class Music
     {
-        public async Task tagaplaanis_mangida(string Path)
+        public void playMusic()
         {
-            await Task.Run(() =>
-            {
-                using (AudioFileReader audioFileReader = new AudioFileReader(Path))
-                using (IWavePlayer waveOutDevice = new WaveOutEvent { DesiredLatency = 200, Volume = 50 })
-                {
-                    waveOutDevice.Init(audioFileReader);
-                    waveOutDevice.Play();
-                    while (waveOutDevice.PlaybackState == PlaybackState.Playing)
-                    {
-                        Thread.Sleep(1000);
-                    }
-                }
-            });
+            IWavePlayer waveOutDevice = new WaveOutEvent();
+            AudioFileReader audioFileReader = new AudioFileReader("../../../Sound.mp3");
+            waveOutDevice.Init(audioFileReader);
+            waveOutDevice.Play();
         }
-        public async Task natuke_mangida(string Path)
+        public void ifEat()
         {
-            await Task.Run(() =>
-            {
-                using (AudioFileReader audioFileReader = new AudioFileReader(Path))
-                using (IWavePlayer waveOutDevice = new WaveOutEvent())
-                {
-                    waveOutDevice.Init(audioFileReader);
-                    waveOutDevice.Play();
-                    while (waveOutDevice.PlaybackState == PlaybackState.Playing)
-                    {
-                        Thread.Sleep(50);
-                    }
-                }
-            });
+            Console.Beep(600, 50);
+            Console.Beep(700, 50);
+            Console.Beep(800, 50);
+        }
+        public void ifDeath()
+        {
+            Console.Beep(800, 300);
+            Console.Beep(700, 300);
+            Console.Beep(600, 300);
+            Console.Beep(500, 500);
         }
     }
 }

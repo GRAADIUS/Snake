@@ -4,70 +4,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Snake
+namespace Test_Snake
 {
-    class Point
+    struct Point
     {
-        public int x; 
-        public int y;
-        public char sym;
+        public int x { get; set; }
+        public int y { get; set; }
+        public char ch { get; set; }
 
-        public Point(int _x, int _y, char _sym)
-        {
-            x= _x;
-            y= _y;
-            sym = _sym;
-        }
-
-        public Point(Point p)
-        {
-            x= p.x;
-            y= p.y;
-            sym = p.sym;
-        }
-
-        public void Move(int offset, Direction directon)
-        {
-            if (directon == Direction.RIGHT)
-            {
-                x = x + offset;
-            }
-            else if (directon == Direction.LEFT)
-            {
-                x = x - offset;
-            }
-            if (directon == Direction.UP)
-            {
-                y = y - offset;
-            }
-            else if (directon == Direction.DOWN)
-            {
-                y = y + offset;
-            }
-        }
-
-        public bool IsHit(Point p)
-        {
-            return p.x == this.x && p.y == this.y;
-        }
-
-
+        public static implicit operator Point((int, int, char) value) =>
+            new Point { x = value.Item1, y = value.Item2, ch = value.Item3 };
 
         public void Draw()
         {
-            Console.SetCursorPosition(x, y);
-            Console.Write(sym);
+            DrawPoint(ch);
         }
-
         public void Clear()
         {
-            sym = ' ';
-            Draw();
+            DrawPoint(' ');
+        }
+        private void DrawPoint(char _ch)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write(_ch);
         }
 
-        public override string ToString()
-        {
-            return x + ", " + y + ", " + sym;
-        }
+        public static bool operator ==(Point a, Point b) =>
+            (a.x == b.x && a.y == b.y) ? true : false;
+        public static bool operator !=(Point a, Point b) =>
+            (a.x != b.x || a.y != b.y) ? true : false;
     }
+
 }
