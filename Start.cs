@@ -6,15 +6,8 @@ using System.Threading.Tasks;
 
 namespace Snake
 {
-    class Uno
-    {/*
-        static EndScreen endScreen;
-        static void Main()
-        {
-            endScreen = new EndScreen();
-            endScreen.Inscription();
-        }
-        */
+    class Start
+    {
         static StartScreen startScreen;
         static void Main()
         {
