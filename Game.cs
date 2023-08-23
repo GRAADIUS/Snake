@@ -9,7 +9,6 @@ namespace Snake
     class Game
     {
         int score = 0;
-
         static Walls walls;
         static FoodFactory foodFactory;
         static Snake snake;
@@ -25,8 +24,9 @@ namespace Snake
             foodFactory = new FoodFactory(x, y, '@');
             foodFactory.CreateFood();
             snake = new Snake(x / 2, y / 2, 4);
-            int b = 0;
-            time = new Timer(Loop, null, 0, 150);
+            int score = 0;
+            int speed = 150;
+            time = new Timer(Loop, null, 0, speed);
             music = new Music();
             meaning = new Meaning();
             endScreen = new EndScreen();
@@ -44,13 +44,14 @@ namespace Snake
                 if (walls.IsHit(snake.GetHead()) || snake.IsHit(snake.GetHead()))
                 {
                     music.ifDeath();
-                    endScreen.Inscription(b);
+                    endScreen.Inscription(score);
                 }
                 else if (snake.Eat(foodFactory.food))
                 {
                     foodFactory.CreateFood();
-                    //meaning.updateScore();
-                    ++b;
+                    ++score;
+                    if (score >= 15 && score <= 65)
+                        --speed;
                     music.ifEat();
                 }
                 else
